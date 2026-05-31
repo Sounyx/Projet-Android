@@ -1,11 +1,17 @@
 package com.sounyx.projetandroid;
 
+import android.animation.ObjectAnimator;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RotateDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
@@ -15,12 +21,17 @@ import java.util.Random;
 
 public class JeuActivity extends AppCompatActivity {
 
+    private static final int TIMER_SECONDS = 10;
+    private static final int MAX_LEVEL = 10000; // Drawable level max
+
     private TextView tvLives;
     private TextView tvScore;
     private TextView tvOperation;
     private EditText etAnswer;
     private Button btnSubmit;
     private TextView tvFeedback;
+    private TextView tvTimer;
+    private ImageView timerRing;
 
     private int score = 0;
     private int lives = 3;
@@ -28,6 +39,10 @@ public class JeuActivity extends AppCompatActivity {
     private String currentOperationText = "";
     private Random random = new Random();
     private ScoreDatabaseHelper dbHelper;
+
+    private CountDownTimer countDownTimer;
+    private ObjectAnimator ringAnimator;
+    private boolean gameEnded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +57,12 @@ public class JeuActivity extends AppCompatActivity {
         etAnswer = findViewById(R.id.et_answer);
         btnSubmit = findViewById(R.id.btn_submit);
         tvFeedback = findViewById(R.id.tv_feedback);
+        tvTimer = findViewById(R.id.tv_timer);
+        timerRing = findViewById(R.id.timer_ring);
 
         generateOperation();
         updateUI();
+        startTimer();
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +86,98 @@ public class JeuActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {}
         });
+    }
+
+    private void startTimer() {
+        // Cancel any existing timer
+        cancelTimer();
+
+        // Reset ring to full
+        setRingLevel(MAX_LEVEL, false);
+        tvTimer.setText(String.valueOf(TIMER_SECONDS));
+        updateTimerColor(TIMER_SECONDS);
+
+        countDownTimer = new CountDownTimer(TIMER_SECONDS * 1000L, 50) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int secondsLeft = (int) Math.ceil(millisUntilFinished / 1000.0);
+                tvTimer.setText(String.valueOf(secondsLeft));
+                updateTimerColor(secondsLeft);
+
+                // Update ring level proportional to time remaining
+                int level = (int) ((millisUntilFinished / (TIMER_SECONDS * 1000.0)) * MAX_LEVEL);
+                setRingLevel(level, false);
+            }
+
+            @Override
+            public void onFinish() {
+                setRingLevel(0, false);
+                tvTimer.setText("0");
+                updateTimerColor(0);
+                onTimeExpired();
+            }
+        };
+        countDownTimer.start();
+    }
+
+    private void cancelTimer() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            countDownTimer = null;
+        }
+        if (ringAnimator != null) {
+            ringAnimator.cancel();
+            ringAnimator = null;
+        }
+    }
+
+    private void setRingLevel(int level, boolean animate) {
+        Drawable drawable = timerRing.getDrawable();
+        if (drawable instanceof RotateDrawable) {
+            RotateDrawable rotateDrawable = (RotateDrawable) drawable;
+            if (animate) {
+                ringAnimator = ObjectAnimator.ofInt(rotateDrawable, "level", rotateDrawable.getLevel(), level);
+                ringAnimator.setDuration(100);
+                ringAnimator.setInterpolator(new LinearInterpolator());
+                ringAnimator.start();
+            } else {
+                rotateDrawable.setLevel(level);
+            }
+        }
+    }
+
+    private void updateTimerColor(int secondsLeft) {
+        int color;
+        if (secondsLeft > 5) {
+            color = getColor(R.color.accent_color); // Blue/Indigo - plenty of time
+        } else if (secondsLeft > 2) {
+            color = getColor(R.color.warning); // Orange - getting low
+        } else {
+            color = getColor(R.color.danger); // Red - urgent
+        }
+        tvTimer.setTextColor(color);
+
+        // Also tint the ring
+        timerRing.setColorFilter(color);
+    }
+
+    private void onTimeExpired() {
+        if (gameEnded) return;
+        lives--;
+        tvFeedback.setVisibility(View.VISIBLE);
+        tvFeedback.setText("⏰ Temps écoulé !");
+        tvFeedback.setTextColor(getColor(R.color.danger));
+
+        etAnswer.setText("");
+
+        if (lives <= 0) {
+            updateUI();
+            gameOver();
+        } else {
+            generateOperation();
+            updateUI();
+            startTimer();
+        }
     }
 
     private void generateOperation() {
@@ -137,6 +247,9 @@ public class JeuActivity extends AppCompatActivity {
             int userAnswer = Integer.parseInt(answerStr);
             boolean correct = (userAnswer == correctResult);
 
+            // Stop the current timer
+            cancelTimer();
+
             tvFeedback.setVisibility(View.VISIBLE);
             if (correct) {
                 score += 10;
@@ -156,6 +269,7 @@ public class JeuActivity extends AppCompatActivity {
             } else {
                 generateOperation();
                 updateUI();
+                startTimer(); // Start a fresh timer for the new question
             }
         } catch (NumberFormatException e) {
             Toast.makeText(this, "Entrée invalide", Toast.LENGTH_SHORT).show();
@@ -163,6 +277,9 @@ public class JeuActivity extends AppCompatActivity {
     }
 
     private void gameOver() {
+        gameEnded = true;
+        cancelTimer();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.game_over_title);
         builder.setMessage(getString(R.string.game_over_msg, score));
@@ -182,5 +299,25 @@ public class JeuActivity extends AppCompatActivity {
 
         builder.setCancelable(false);
         builder.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cancelTimer();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        cancelTimer();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!gameEnded) {
+            startTimer();
+        }
     }
 }

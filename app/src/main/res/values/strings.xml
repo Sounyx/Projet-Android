@@ -17,6 +17,6 @@
     <string name="btn_submit">Valider</string>
     <string name="btn_about">À propos</string>
     <string name="about_title">À propos de l\'application</string>
-    <string name="about_message">• Sélecteur de langue dynamique (Français/Anglais)\n• Jauge de vies visuelle sous forme de cœurs\n• Rangs du podium avec médailles (or, argent, bronze)\n• Validation des réponses directement dans l\'interface</string>
+    <string name="about_message">• Sélecteur de langue dynamique (Français/Anglais)\n• Jauge de vies visuelle sous forme de cœurs\n• Rangs du podium avec médailles (or, argent, bronze)\n• Validation des réponses directement dans l\'interface\n• Timer de 10 secondes par question avec chrono circulaire animé</string>
     <string name="btn_close">Fermer</string>
 </resources>
