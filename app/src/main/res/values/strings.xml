@@ -4,8 +4,8 @@
     <string name="app_subtitle">Entraînez votre esprit au quotidien</string>
     <string name="btn_play">Jouer</string>
     <string name="btn_highscore">Meilleurs Scores</string>
-    <string name="lives_label">Vies : %d</string>
-    <string name="score_label">Score : %d</string>
+    <string name="lives_label">Vies :</string>
+    <string name="score_label">⭐ Score : %d</string>
     <string name="correct_msg">Correct !</string>
     <string name="wrong_msg">Mauvaise réponse !</string>
     <string name="game_over_title">Partie terminée !</string>

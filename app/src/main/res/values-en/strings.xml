@@ -4,8 +4,8 @@
     <string name="app_subtitle">Train your mind daily</string>
     <string name="btn_play">Play</string>
     <string name="btn_highscore">Highscores</string>
-    <string name="lives_label">Lives: %d</string>
-    <string name="score_label">Score: %d</string>
+    <string name="lives_label">Lives:</string>
+    <string name="score_label">⭐ Score: %d</string>
     <string name="correct_msg">Correct!</string>
     <string name="wrong_msg">Wrong answer!</string>
     <string name="game_over_title">Game Over!</string>

@@ -110,9 +110,21 @@ public class JeuActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
-        tvLives.setText(getString(R.string.lives_label, lives));
+        tvLives.setText(getString(R.string.lives_label) + " " + getHeartsString(lives));
         tvScore.setText(getString(R.string.score_label, score));
         tvOperation.setText(currentOperationText);
+    }
+
+    private String getHeartsString(int currentLives) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 3; i++) {
+            if (i < currentLives) {
+                sb.append("❤️ ");
+            } else {
+                sb.append("🤍 ");
+            }
+        }
+        return sb.toString().trim();
     }
 
     private void checkAnswer() {
