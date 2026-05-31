@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Mental Math</string>
+    <string name="app_subtitle">Train your mind daily</string>
     <string name="btn_play">Play</string>
     <string name="btn_highscore">Highscores</string>
     <string name="lives_label">Lives: %d</string>

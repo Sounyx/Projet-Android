@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.sounyx.projetandroid.database.ScoreDatabaseHelper;
+import java.util.Random;
 
 public class JeuActivity extends AppCompatActivity {
 
@@ -20,6 +21,9 @@ public class JeuActivity extends AppCompatActivity {
 
     private int score = 0;
     private int lives = 3;
+    private int correctResult = 0;
+    private String currentOperationText = "";
+    private Random random = new Random();
     private ScoreDatabaseHelper dbHelper;
 
     @Override
@@ -35,6 +39,7 @@ public class JeuActivity extends AppCompatActivity {
         etAnswer = findViewById(R.id.et_answer);
         btnSubmit = findViewById(R.id.btn_submit);
 
+        generateOperation();
         updateUI();
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -45,11 +50,49 @@ public class JeuActivity extends AppCompatActivity {
         });
     }
 
+    private void generateOperation() {
+        int operatorType = random.nextInt(4); // 0: +, 1: -, 2: *, 3: /
+        int a, b;
+
+        switch (operatorType) {
+            case 0: // Addition
+                a = random.nextInt(50) + 1; // 1 to 50
+                b = random.nextInt(50) + 1; // 1 to 50
+                correctResult = a + b;
+                currentOperationText = a + " + " + b + " = ?";
+                break;
+            case 1: // Subtraction
+                a = random.nextInt(50) + 1; // 1 to 50
+                b = random.nextInt(50) + 1; // 1 to 50
+                // Ensure positive results
+                if (a < b) {
+                    int temp = a;
+                    a = b;
+                    b = temp;
+                }
+                correctResult = a - b;
+                currentOperationText = a + " - " + b + " = ?";
+                break;
+            case 2: // Multiplication
+                a = random.nextInt(10) + 1; // 1 to 10
+                b = random.nextInt(10) + 1; // 1 to 10
+                correctResult = a * b;
+                currentOperationText = a + " × " + b + " = ?";
+                break;
+            case 3: // Integer Division
+            default:
+                correctResult = random.nextInt(10) + 1; // 1 to 10 (Result)
+                b = random.nextInt(10) + 1; // 1 to 10 (Divisor)
+                a = correctResult * b; // Dividend
+                currentOperationText = a + " ÷ " + b + " = ?";
+                break;
+        }
+    }
+
     private void updateUI() {
         tvLives.setText(getString(R.string.lives_label, lives));
         tvScore.setText(getString(R.string.score_label, score));
-        // TODO: Generate operation
-        tvOperation.setText("10 + 5 = ?");
+        tvOperation.setText(currentOperationText);
     }
 
     private void checkAnswer() {
@@ -58,22 +101,29 @@ public class JeuActivity extends AppCompatActivity {
             return;
         }
 
-        // Logic check placeholder
-        boolean correct = true; // TODO: Implement validation
+        try {
+            int userAnswer = Integer.parseInt(answerStr);
+            boolean correct = (userAnswer == correctResult);
 
-        if (correct) {
-            score += 10;
-            Toast.makeText(this, R.string.correct_msg, Toast.LENGTH_SHORT).show();
-        } else {
-            lives--;
-            Toast.makeText(this, R.string.wrong_msg, Toast.LENGTH_SHORT).show();
-        }
+            if (correct) {
+                score += 10;
+                Toast.makeText(this, R.string.correct_msg, Toast.LENGTH_SHORT).show();
+            } else {
+                lives--;
+                Toast.makeText(this, R.string.wrong_msg, Toast.LENGTH_SHORT).show();
+            }
 
-        etAnswer.setText("");
-        updateUI();
+            etAnswer.setText("");
 
-        if (lives <= 0) {
-            gameOver();
+            if (lives <= 0) {
+                updateUI(); // Show 0 lives
+                gameOver();
+            } else {
+                generateOperation();
+                updateUI();
+            }
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Entrée invalide", Toast.LENGTH_SHORT).show();
         }
     }
 
