@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Sounyx Calcul Mental</string>
+    <string name="app_name">Calcul Mental</string>
     <string name="btn_play">Jouer</string>
     <string name="btn_highscore">Meilleurs Scores</string>
     <string name="lives_label">Vies : %d</string>
