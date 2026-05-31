@@ -1,6 +1,8 @@
 package com.sounyx.projetandroid;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +20,7 @@ public class JeuActivity extends AppCompatActivity {
     private TextView tvOperation;
     private EditText etAnswer;
     private Button btnSubmit;
+    private TextView tvFeedback;
 
     private int score = 0;
     private int lives = 3;
@@ -38,6 +41,7 @@ public class JeuActivity extends AppCompatActivity {
         tvOperation = findViewById(R.id.tv_operation);
         etAnswer = findViewById(R.id.et_answer);
         btnSubmit = findViewById(R.id.btn_submit);
+        tvFeedback = findViewById(R.id.tv_feedback);
 
         generateOperation();
         updateUI();
@@ -47,6 +51,22 @@ public class JeuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 checkAnswer();
             }
+        });
+
+        // Hide feedback text when the user starts typing their next answer
+        etAnswer.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0 && tvFeedback.getVisibility() == View.VISIBLE) {
+                    tvFeedback.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
     }
 
@@ -105,12 +125,15 @@ public class JeuActivity extends AppCompatActivity {
             int userAnswer = Integer.parseInt(answerStr);
             boolean correct = (userAnswer == correctResult);
 
+            tvFeedback.setVisibility(View.VISIBLE);
             if (correct) {
                 score += 10;
-                Toast.makeText(this, R.string.correct_msg, Toast.LENGTH_SHORT).show();
+                tvFeedback.setText(R.string.correct_msg);
+                tvFeedback.setTextColor(getColor(R.color.success));
             } else {
                 lives--;
-                Toast.makeText(this, R.string.wrong_msg, Toast.LENGTH_SHORT).show();
+                tvFeedback.setText(R.string.wrong_msg);
+                tvFeedback.setTextColor(getColor(R.color.danger));
             }
 
             etAnswer.setText("");
