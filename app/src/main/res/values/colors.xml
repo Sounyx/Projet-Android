@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Custom Premium Palette -->
+    <color name="primary_color">#1A237E</color> <!-- Deep Indigo -->
+    <color name="primary_dark_color">#0D1B2A</color> <!-- Very Dark Slate -->
+    <color name="accent_color">#00B4D8</color> <!-- Vibrant Cyan -->
+    <color name="background_light">#F8F9FA</color>
+    <color name="text_primary">#212529</color>
+    <color name="text_secondary">#6C757D</color>
+    <color name="card_background">#FFFFFF</color>
+    <color name="danger">#E63946</color> <!-- Red for lives -->
+    <color name="warning">#FFB703</color> <!-- Gold for scores -->
+    <color name="success">#2A9D8F</color> <!-- Green for correct answers -->
+</resources>

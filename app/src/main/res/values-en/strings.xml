@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sounyx Mental Math</string>
+    <string name="btn_play">Play</string>
+    <string name="btn_highscore">Highscores</string>
+    <string name="lives_label">Lives: %d</string>
+    <string name="score_label">Score: %d</string>
+    <string name="correct_msg">Correct!</string>
+    <string name="wrong_msg">Wrong answer!</string>
+    <string name="game_over_title">Game Over!</string>
+    <string name="game_over_msg">Your final score is %d. Enter your name to save it:</string>
+    <string name="name_hint">Your Name</string>
+    <string name="btn_save">Save</string>
+    <string name="no_scores_msg">No scores recorded yet.</string>
+    <string name="answer_hint">Your answer...</string>
+    <string name="btn_submit">Submit</string>
+</resources>

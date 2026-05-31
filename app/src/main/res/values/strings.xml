@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sounyx Calcul Mental</string>
+    <string name="btn_play">Jouer</string>
+    <string name="btn_highscore">Meilleurs Scores</string>
+    <string name="lives_label">Vies : %d</string>
+    <string name="score_label">Score : %d</string>
+    <string name="correct_msg">Correct !</string>
+    <string name="wrong_msg">Mauvaise réponse !</string>
+    <string name="game_over_title">Partie terminée !</string>
+    <string name="game_over_msg">Votre score final est de %d. Entrez votre nom pour l\'enregistrer :</string>
+    <string name="name_hint">Votre Nom</string>
+    <string name="btn_save">Enregistrer</string>
+    <string name="no_scores_msg">Aucun score enregistré.</string>
+    <string name="answer_hint">Votre réponse...</string>
+    <string name="btn_submit">Valider</string>
+</resources>
