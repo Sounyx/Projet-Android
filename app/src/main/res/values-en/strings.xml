@@ -15,4 +15,8 @@
     <string name="no_scores_msg">No scores recorded yet.</string>
     <string name="answer_hint">Your answer...</string>
     <string name="btn_submit">Submit</string>
+    <string name="btn_about">About</string>
+    <string name="about_title">About the app</string>
+    <string name="about_message">• Dynamic language switcher (French/English)\n• Visual lives gauge using heart containers\n• Leaderboard podium with medals (gold, silver, bronze)\n• Direct visual response feedback integrated into the UI</string>
+    <string name="btn_close">Close</string>
 </resources>

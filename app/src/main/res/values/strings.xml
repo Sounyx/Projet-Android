@@ -15,4 +15,8 @@
     <string name="no_scores_msg">Aucun score enregistré.</string>
     <string name="answer_hint">Votre réponse...</string>
     <string name="btn_submit">Valider</string>
+    <string name="btn_about">À propos</string>
+    <string name="about_title">À propos de l\'application</string>
+    <string name="about_message">• Sélecteur de langue dynamique (Français/Anglais)\n• Jauge de vies visuelle sous forme de cœurs\n• Rangs du podium avec médailles (or, argent, bronze)\n• Validation des réponses directement dans l\'interface</string>
+    <string name="btn_close">Fermer</string>
 </resources>

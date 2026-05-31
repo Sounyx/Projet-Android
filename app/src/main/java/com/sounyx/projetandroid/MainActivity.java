@@ -51,6 +51,22 @@ public class MainActivity extends AppCompatActivity {
                 showLanguageMenu(v);
             }
         });
+
+        Button btnAbout = findViewById(R.id.btn_about);
+        btnAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAboutDialog();
+            }
+        });
+    }
+
+    private void showAboutDialog() {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle(R.string.about_title)
+                .setMessage(R.string.about_message)
+                .setPositiveButton(R.string.btn_close, null)
+                .show();
     }
 
     private void showLanguageMenu(View view) {
