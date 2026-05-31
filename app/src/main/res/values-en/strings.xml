@@ -17,6 +17,8 @@
     <string name="btn_submit">Submit</string>
     <string name="btn_about">About</string>
     <string name="about_title">About the app</string>
-    <string name="about_message">• Dynamic language switcher (French/English)\n• Visual lives gauge using heart containers\n• Leaderboard podium with medals (gold, silver, bronze)\n• Direct visual response feedback integrated into the UI</string>
+    <string name="about_message">• Dynamic language switcher (French/English)\n• Visual lives gauge using heart containers\n• Leaderboard podium with medals (gold, silver, bronze)\n• Direct visual response feedback integrated into the UI\n• 10-second animated circular countdown timer per question\n• Combo system: chain correct answers to multiply your points (×2, ×3, ×4)</string>
     <string name="btn_close">Close</string>
+    <string name="combo_label">🔥 Combo ×%d</string>
+    <string name="combo_broken">Combo broken!</string>
 </resources>
