@@ -36,7 +36,19 @@ public class HighscoreActivity extends AppCompatActivity {
             while (cursor.moveToNext()) {
                 String name = (indexName >= 0) ? cursor.getString(indexName) : "Unknown";
                 int score = (indexScore >= 0) ? cursor.getInt(indexScore) : 0;
-                scoreList.add(rank + ". " + name + " : " + score + " pts");
+                
+                String rankDisplay;
+                if (rank == 1) {
+                    rankDisplay = "🥇 ";
+                } else if (rank == 2) {
+                    rankDisplay = "🥈 ";
+                } else if (rank == 3) {
+                    rankDisplay = "🥉 ";
+                } else {
+                    rankDisplay = rank + ". ";
+                }
+                
+                scoreList.add(rankDisplay + name + " : " + score + " pts");
                 rank++;
             }
             cursor.close();
